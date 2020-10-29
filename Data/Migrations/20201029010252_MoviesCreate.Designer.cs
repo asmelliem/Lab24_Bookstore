@@ -4,148 +4,22 @@ using Lab24_Bookstore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lab24_Bookstore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201029010252_MoviesCreate")]
+    partial class MoviesCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Lab24_Bookstore.Models.Movie", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Genre")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Runtime")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Movie");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Genre = "Comedy",
-                            Runtime = 119.0,
-                            Title = "Jumanji: Welcome to the Jungle"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Genre = "Comedy",
-                            Runtime = 123.0,
-                            Title = "Jumanji: The Next Level"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Genre = "Action",
-                            Runtime = 133.0,
-                            Title = "Spider-Man: Homecoming"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Genre = "Action",
-                            Runtime = 130.0,
-                            Title = "John Wick: Chapter 3"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Genre = "Action",
-                            Runtime = 112.0,
-                            Title = "Venom"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Genre = "Action",
-                            Runtime = 141.0,
-                            Title = "Logan"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Genre = "Horror",
-                            Runtime = 94.0,
-                            Title = "The Grudge"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Genre = "Horror",
-                            Runtime = 170.0,
-                            Title = "It: Chapter Two"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Genre = "Horror",
-                            Runtime = 112.0,
-                            Title = "The Conjuring"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Genre = "Mystery",
-                            Runtime = 130.0,
-                            Title = "Knives Out"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Genre = "Mystery",
-                            Runtime = 114.0,
-                            Title = "Murder on the Orient Express"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Genre = "Documentary",
-                            Runtime = 94.0,
-                            Title = "The Social Dilemma"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Genre = "Documentary",
-                            Runtime = 97.0,
-                            Title = "The Fight"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Genre = "Musical",
-                            Runtime = 106.0,
-                            Title = "The Greated Showman"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Genre = "Musical",
-                            Runtime = 122.0,
-                            Title = "Rocketman"
-                        });
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
