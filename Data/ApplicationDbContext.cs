@@ -15,6 +15,7 @@ namespace Lab24_Bookstore.Data
         }
 
         public DbSet<Movie> Movie { get; set; }
+        public DbSet<CheckedOutMovies> CheckedOutMovie { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,7 +39,18 @@ namespace Lab24_Bookstore.Data
                     new Movie { Id = 14, Title = "The Greated Showman", Genre = "Musical", Runtime = 106 },
                     new Movie { Id = 15, Title = "Rocketman", Genre = "Musical", Runtime = 122 }
                     );
+                i.Property(m => m.Title).HasMaxLength(50);
+                i.Property(m => m.Genre).HasMaxLength(50);
             });
+
+            /*
+            modelBuilder.Entity<CheckedOutMovies>(i =>
+            {
+                i.HasKey(k => k.Id);
+                i.HasMany(m => Movie).WithOne(m => m.CheckedOutMovie).HasForeignKey(k => k.Id);
+                //i.HasOne(m => m.User).WithMany(m => m.Chec);
+            });
+            */
 
             base.OnModelCreating(modelBuilder);
         }

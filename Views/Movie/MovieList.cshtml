@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Lab24_Bookstore.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movie List";
+}
+
+<h1>Movie List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Runtime (minutes)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => movie.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => movie.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => movie.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => movie.Runtime)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
