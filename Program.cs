@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Lab24_Bookstore
+namespace Lab24_Moviestore
 {
     public class Program
     {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lab24_Bookstore.Data;
-using Lab24_Bookstore.Models;
+using Lab24_Moviestore.Models;
+using Lab24_Moviestore.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lab24_Bookstore.Controllers
+namespace Lab24_Moviestore.Controllers
 {
     public class MovieController : Controller
     {
@@ -29,7 +29,7 @@ namespace Lab24_Bookstore.Controllers
             var movieList = await _context.Movie.ToListAsync();
             return View(movieList);
         }
-        
+
         // POST: Product/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

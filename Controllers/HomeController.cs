@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Lab24_Bookstore.Models;
+using Lab24_Moviestore.Models;
 
-namespace Lab24_Bookstore.Controllers
+namespace Lab24_Moviestore.Controllers
 {
     public class HomeController : Controller
     {

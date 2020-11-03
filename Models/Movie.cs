@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lab24_Bookstore.Models
+namespace Lab24_Moviestore.Models
 {
     public class Movie
     {

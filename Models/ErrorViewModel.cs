@@ -1,6 +1,6 @@
 using System;
 
-namespace Lab24_Bookstore.Models
+namespace Lab24_Moviestore.Models
 {
     public class ErrorViewModel
     {

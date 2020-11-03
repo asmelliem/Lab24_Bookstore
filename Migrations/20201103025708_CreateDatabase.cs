@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Lab24_Bookstore.Data.Migrations
+namespace Lab24_Moviestore.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,7 +51,7 @@ namespace Lab24_Bookstore.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +72,7 @@ namespace Lab24_Bookstore.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +152,70 @@ namespace Lab24_Bookstore.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CheckedOutMovie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(nullable: true),
+                    DueDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CheckedOutMovie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CheckedOutMovie_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(maxLength: 50, nullable: true),
+                    Genre = table.Column<string>(maxLength: 50, nullable: true),
+                    Runtime = table.Column<double>(nullable: false),
+                    CheckedOutMovieId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movie", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movie_CheckedOutMovie_CheckedOutMovieId",
+                        column: x => x.CheckedOutMovieId,
+                        principalTable: "CheckedOutMovie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Movie",
+                columns: new[] { "Id", "CheckedOutMovieId", "Genre", "Runtime", "Title" },
+                values: new object[,]
+                {
+                    { 1, null, "Comedy", 119.0, "Jumanji: Welcome to the Jungle" },
+                    { 2, null, "Comedy", 123.0, "Jumanji: The Next Level" },
+                    { 3, null, "Action", 133.0, "Spider-Man: Homecoming" },
+                    { 4, null, "Action", 130.0, "John Wick: Chapter 3" },
+                    { 5, null, "Action", 112.0, "Venom" },
+                    { 6, null, "Action", 141.0, "Logan" },
+                    { 7, null, "Horror", 94.0, "The Grudge" },
+                    { 8, null, "Horror", 170.0, "It: Chapter Two" },
+                    { 9, null, "Horror", 112.0, "The Conjuring" },
+                    { 10, null, "Mystery", 130.0, "Knives Out" },
+                    { 11, null, "Mystery", 114.0, "Murder on the Orient Express" },
+                    { 12, null, "Documentary", 94.0, "The Social Dilemma" },
+                    { 13, null, "Documentary", 97.0, "The Fight" },
+                    { 14, null, "Musical", 106.0, "The Greated Showman" },
+                    { 15, null, "Musical", 122.0, "Rocketman" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +254,16 @@ namespace Lab24_Bookstore.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CheckedOutMovie_UserId",
+                table: "CheckedOutMovie",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movie_CheckedOutMovieId",
+                table: "Movie",
+                column: "CheckedOutMovieId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +284,13 @@ namespace Lab24_Bookstore.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Movie");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "CheckedOutMovie");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

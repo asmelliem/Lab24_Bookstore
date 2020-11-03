@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using Lab24_Bookstore.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Lab24_Moviestore.Data;
 
-namespace Lab24_Bookstore
+namespace Lab24_Moviestore
 {
     public class Startup
     {
@@ -28,7 +28,7 @@ namespace Lab24_Bookstore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer("Server=localhost;Database=Lab24Bookstore;Trusted_Connection=True;MultipleActiveResultSets=true"));
+                options.UseSqlServer("Server=localhost;Database=Lab24MovieStore;Trusted_Connection=True;MultipleActiveResultSets=true"));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();

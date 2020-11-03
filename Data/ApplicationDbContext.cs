@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lab24_Bookstore.Models;
+﻿using Lab24_Moviestore.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Lab24_Bookstore.Data
+namespace Lab24_Moviestore.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -23,7 +20,7 @@ namespace Lab24_Bookstore.Data
             {
                 i.HasKey(k => k.Id);
                 i.HasData(
-                    new Movie { Id = 1, Title = "Jumanji: Welcome to the Jungle", Genre = "Comedy", Runtime = 119},
+                    new Movie { Id = 1, Title = "Jumanji: Welcome to the Jungle", Genre = "Comedy", Runtime = 119 },
                     new Movie { Id = 2, Title = "Jumanji: The Next Level", Genre = "Comedy", Runtime = 123 },
                     new Movie { Id = 3, Title = "Spider-Man: Homecoming", Genre = "Action", Runtime = 133 },
                     new Movie { Id = 4, Title = "John Wick: Chapter 3", Genre = "Action", Runtime = 130 },
@@ -42,15 +39,11 @@ namespace Lab24_Bookstore.Data
                 i.Property(m => m.Title).HasMaxLength(50);
                 i.Property(m => m.Genre).HasMaxLength(50);
             });
-
-            /*
+            
             modelBuilder.Entity<CheckedOutMovies>(i =>
             {
                 i.HasKey(k => k.Id);
-                i.HasMany(m => Movie).WithOne(m => m.CheckedOutMovie).HasForeignKey(k => k.Id);
-                //i.HasOne(m => m.User).WithMany(m => m.Chec);
-            });
-            */
+            });            
 
             base.OnModelCreating(modelBuilder);
         }
