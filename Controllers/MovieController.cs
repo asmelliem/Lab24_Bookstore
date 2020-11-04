@@ -6,6 +6,9 @@ using Lab24_Moviestore.Models;
 using Lab24_Moviestore.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Lab24_Moviestore.Controllers
 {
@@ -41,8 +44,22 @@ namespace Lab24_Moviestore.Controllers
         [HttpGet]
         public async Task<IActionResult> Checkout(Movie movie)
         {
-            var movieInfo = await _context.Movie.Where(m => m.Id == movie.Id).ToListAsync();
+            var movieInfo = await _context.Movie.FirstOrDefaultAsync(m => m.Id == movie.Id);
             return View(movieInfo);
+        }
+
+        public async Task<IActionResult> CheckoutMovie(Movie movie)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var dueDate = DateTime.Now.AddDays(7);
+            var checkoutOutMovie = new CheckedOutMovies()
+            {
+                UserId = userId,
+                DueDate = dueDate
+            };
+            _context.CheckedOutMovie.Add(checkoutOutMovie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(MovieList));
         }
     }
 }

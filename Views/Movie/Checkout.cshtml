@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Lab24_Moviestore.Models.Movie>
+﻿@model Movie
+@using Microsoft.AspNetCore.Identity
 @{
     ViewData["Title"] = "Movie Checkout";
 }
@@ -19,29 +20,28 @@
             </th>
             <th>
                 Runtime (minutes)
-            </th>            
+            </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var movie in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => movie.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => movie.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => movie.Genre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => movie.Runtime)
-                </td>                
-            </tr>
-        }
+        <tr>
+            <td>
+                @Model.Id
+            </td>
+            <td>
+                @Model.Title
+            </td>
+            <td>
+                @Model.Genre
+            </td>
+            <td>
+                @Model.Runtime
+            </td>
+        </tr>
     </tbody>
 </table>
-<p>Would you like to checkout this movie?</p>
-<button type="button" class="btn btn-success">Yes</button>
-<button type="button" class="btn btn-danger">No</button>
+
+<p>Are you sure you would like to checkout this movie?</p>
+<button type="button" class="btn btn-success" onclick="location.href='@Url.Action("CheckoutMovie", "Movie", Model)'">Yes</button>
+<button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("MovieList", "Movie")'">No</button>
+
