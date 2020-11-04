@@ -1,13 +1,9 @@
 ﻿@model IEnumerable<Lab24_Moviestore.Models.Movie>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-
 @{
-    ViewData["Title"] = "Movie List";
+    ViewData["Title"] = "Movie Checkout";
 }
 
-<h1>Movie List</h1>
+<h1>Movie Checkout</h1>
 
 <table class="table">
     <thead>
@@ -23,10 +19,7 @@
             </th>
             <th>
                 Runtime (minutes)
-            </th>
-            <th>
-                Available for Checkout?
-            </th>
+            </th>            
         </tr>
     </thead>
     <tbody>
@@ -44,19 +37,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => movie.Runtime)
-                </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Checkout", "Movie", movie)'">Checkout</button>
-                    }
-
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <p>Please login to checkout</p>
-                    }
-                </td>
+                </td>                
             </tr>
         }
     </tbody>
 </table>
+<p>Would you like to checkout this movie?</p>
+<button type="button" class="btn btn-success">Yes</button>
+<button type="button" class="btn btn-danger">No</button>

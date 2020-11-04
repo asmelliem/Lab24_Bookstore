@@ -18,11 +18,6 @@ namespace Lab24_Moviestore.Controllers
             _context = context;
         }
 
-        public IActionResult Registration()
-        {
-            return View();
-        }
-
         //Get: Movie
         public async Task<IActionResult> MovieList()
         {
@@ -30,9 +25,6 @@ namespace Lab24_Moviestore.Controllers
             return View(movieList);
         }
 
-        // POST: Product/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Title,Genre,Runtime")] Movie movie)
@@ -44,6 +36,13 @@ namespace Lab24_Moviestore.Controllers
                 return RedirectToAction(nameof(MovieList));
             }
             return View(movie);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout(Movie movie)
+        {
+            var movieInfo = await _context.Movie.Where(m => m.Id == movie.Id).ToListAsync();
+            return View(movieInfo);
         }
     }
 }
