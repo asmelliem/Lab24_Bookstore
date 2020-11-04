@@ -12,6 +12,5 @@ namespace Lab24_Moviestore.Models
         public string Title { get; set; }
         public string Genre { get; set; }
         public double Runtime { get; set; }
-        public CheckedOutMovies CheckedOutMovie { get; set; }
     }
 }

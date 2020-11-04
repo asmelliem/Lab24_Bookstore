@@ -57,7 +57,7 @@ namespace Lab24_Moviestore.Controllers
                 UserId = userId,
                 DueDate = dueDate
             };
-            _context.CheckedOutMovie.Add(checkoutOutMovie);
+            _context.CheckedOutMovie.Add(checkoutOutMovie);            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(MovieList));
         }

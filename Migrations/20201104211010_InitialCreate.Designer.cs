@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab24_Moviestore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201103025708_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20201104211010_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,10 +31,15 @@ namespace Lab24_Moviestore.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.HasIndex("UserId");
 
@@ -48,9 +53,6 @@ namespace Lab24_Moviestore.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CheckedOutMovieId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
@@ -63,8 +65,6 @@ namespace Lab24_Moviestore.Migrations
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CheckedOutMovieId");
 
                     b.ToTable("Movie");
 
@@ -378,16 +378,13 @@ namespace Lab24_Moviestore.Migrations
 
             modelBuilder.Entity("Lab24_Moviestore.Models.CheckedOutMovies", b =>
                 {
+                    b.HasOne("Lab24_Moviestore.Models.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Lab24_Moviestore.Models.Movie", b =>
-                {
-                    b.HasOne("Lab24_Moviestore.Models.CheckedOutMovies", "CheckedOutMovie")
-                        .WithMany("Movie")
-                        .HasForeignKey("CheckedOutMovieId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

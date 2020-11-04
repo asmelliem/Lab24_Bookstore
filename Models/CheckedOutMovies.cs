@@ -12,7 +12,7 @@ namespace Lab24_Moviestore.Models
         public int Id { get; set; }        
         public string UserId { get; set; }    
         public IdentityUser User { get; set; }
-        public List<Movie> Movie { get; set; }
+        public Movie Movie { get; set; }
         public DateTime DueDate { get; set; }
     }
 }
