@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Lab24_Moviestore.Models.Movie>
+﻿@model IEnumerable<Lab24_Moviestore.Models.MovieCheckoutData>
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -25,7 +25,7 @@
                 Runtime (minutes)
             </th>
             <th>
-                Available for Checkout?
+                Available for Checkout/Return Date
             </th>
         </tr>
     </thead>
@@ -34,21 +34,29 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => movie.Id)
+                    @Html.DisplayFor(modelItem => movie.Movies.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => movie.Title)
+                    @Html.DisplayFor(modelItem => movie.Movies.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => movie.Genre)
+                    @Html.DisplayFor(modelItem => movie.Movies.Genre)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => movie.Runtime)
+                    @Html.DisplayFor(modelItem => movie.Movies.Runtime)
                 </td>
                 <td>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Checkout", "Movie", movie)'">Checkout</button>
+                        if (movie.IsCheckedOut)
+                        {
+                            @Html.DisplayFor(modelItem => movie.DueDate)
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Checkout", "Movie", movie.Movies)'">Checkout</button>
+                        }
+
                     }
 
                     @if (!User.Identity.IsAuthenticated)

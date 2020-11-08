@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Lab24_Moviestore.Models.CheckedOutMovies>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Checked Out Movie List";
+}
+
+<h1>Checked Out Movie List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Due Date
+            </th>
+            <th>
+                Check In?
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => movie.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => movie.DueDate)
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Checkin", "Movie", movie)'">Checkin</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

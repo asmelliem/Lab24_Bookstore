@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab24_Moviestore.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201104211010_InitialCreate")]
+    [Migration("20201104211630_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace Lab24_Moviestore.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -380,7 +380,9 @@ namespace Lab24_Moviestore.Migrations
                 {
                     b.HasOne("Lab24_Moviestore.Models.Movie", "Movie")
                         .WithMany()
-                        .HasForeignKey("MovieId");
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace Lab24_Moviestore.Controllers
 {
@@ -25,20 +26,22 @@ namespace Lab24_Moviestore.Controllers
         public async Task<IActionResult> MovieList()
         {
             var movieList = await _context.Movie.ToListAsync();
-            return View(movieList);
-        }
+            var checkedOutMovies = await _context.CheckedOutMovie.ToListAsync();
+            var masterMovieList = new List<MovieCheckoutData>();
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Genre,Runtime")] Movie movie)
-        {
-            if (ModelState.IsValid)
+            foreach(var movie in movieList)
             {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(MovieList));
+                var movieCheckoutData = new MovieCheckoutData();
+                var checkedOutMovie = checkedOutMovies.FirstOrDefault(c => c.MovieId == movie.Id);
+                if (checkedOutMovie != null)
+                {
+                    movieCheckoutData.IsCheckedOut = true;
+                    movieCheckoutData.DueDate = checkedOutMovie.DueDate;
+                }
+                movieCheckoutData.Movies = movie;
+                masterMovieList.Add(movieCheckoutData);
             }
-            return View(movie);
+            return View(masterMovieList);
         }
 
         [HttpGet]
@@ -51,15 +54,49 @@ namespace Lab24_Moviestore.Controllers
         public async Task<IActionResult> CheckoutMovie(Movie movie)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var dueDate = DateTime.Now.AddDays(7);
-            var checkoutOutMovie = new CheckedOutMovies()
+            var dueDate = DateTime.Now.AddDays(7).Date;
+            var checkoutMovie = new CheckedOutMovies()
             {
                 UserId = userId,
-                DueDate = dueDate
+                DueDate = dueDate,
+                MovieId = movie.Id
+                
             };
-            _context.CheckedOutMovie.Add(checkoutOutMovie);            
+            _context.CheckedOutMovie.Add(checkoutMovie);            
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(MovieList));
+
+            var checkOutMovie = new MovieListAndCheckout
+            {
+                MovieTitle = movie.Title,
+                MovieDueDate = checkoutMovie.DueDate
+            };
+
+            TempData["CheckedOutMovie"] = JsonConvert.SerializeObject(checkOutMovie);
+
+            return RedirectToAction("Result", "Movie");
+        }
+
+        public IActionResult Result()
+        {
+            var result = JsonConvert.DeserializeObject<MovieListAndCheckout>((string)TempData["CheckedOutMovie"]);
+
+            return View(result);
+        }
+
+        public async Task<IActionResult> CheckedOutMovie()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _context.CheckedOutMovie.Include(m => m.Movie).Where(m => m.UserId == userId).ToListAsync();
+            return View(result);
+        }
+
+
+        public async Task<IActionResult> Checkin(CheckedOutMovies checkedOutMovie)
+        {
+            var returnMovie = await _context.CheckedOutMovie.FirstOrDefaultAsync(m => m.Id == checkedOutMovie.Id);
+            _context.CheckedOutMovie.Remove(returnMovie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("CheckedOutMovie", "Movie");
         }
     }
 }

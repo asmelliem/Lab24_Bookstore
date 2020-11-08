@@ -174,7 +174,7 @@ namespace Lab24_Moviestore.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
-                    MovieId = table.Column<int>(nullable: true),
+                    MovieId = table.Column<int>(nullable: false),
                     DueDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -185,7 +185,7 @@ namespace Lab24_Moviestore.Migrations
                         column: x => x.MovieId,
                         principalTable: "Movie",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CheckedOutMovie_AspNetUsers_UserId",
                         column: x => x.UserId,
